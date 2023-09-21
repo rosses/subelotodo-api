@@ -1,20 +1,8 @@
-import { DataTypes } from 'sequelize';
-import db from '../db/config';
+// src/models/User.ts
+import { PrismaClient } from '@prisma/client';
 
-const User = db.define('User', {
-    nombre: {
-        type: DataTypes.STRING,
-        allowNull: false, // Indica que el nombre no puede ser nulo
-    },
-    email: {
-        type: DataTypes.STRING,
-        allowNull: false, // Indica que el correo electrónico no puede ser nulo
-    },
-    estado: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true, // Valor predeterminado para el estado (puedes cambiarlo según tus necesidades)
-    },
-});
+const prisma = new PrismaClient();
 
+const User = prisma.users;
 
-export default User;
+export default  User;

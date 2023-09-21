@@ -1,7 +1,16 @@
 import express, {  Application } from "express";
 import userRoutes from "../routes/user";
 import cors from 'cors'; 
-import db from "../db/config";
+import { PrismaClient } from '@prisma/client'
+
+interface Paths {
+    // auth: string;
+    // search: string;
+    // categories: string;
+    // products: string;
+    users: string;
+    // uploads: string;
+}
 
 
 
@@ -9,15 +18,15 @@ class Server {
 
     private app: Application; 
     private port: string;
-    private apiPaths = {
-        //auth : '/api/auth',
-        users: '/api/Users',
-    }; 
-
+    private prisma: PrismaClient;
+    private paths: Paths;
     constructor(){
         this.app = express();
         this.port = process.env.PORT || '8000';
-
+        this.prisma = new PrismaClient(); // Inicializa el cliente de Prisma
+        this.paths = {
+            users: '/api/Users',
+        }; 
         //Metodos iniciales
         this.dbConnection();
         this.middlewares();
@@ -26,7 +35,7 @@ class Server {
 
      async dbConnection(){
         try {
-            await db.authenticate();
+            await this.prisma.$connect();
             console.log('Database online');
             
         } catch (error) {
@@ -47,7 +56,7 @@ class Server {
     }
 
     routes(){
-        this.app.use(  this.apiPaths.users, userRoutes )
+        this.app.use(  this.paths.users, userRoutes )
     }
 
     listen(){
