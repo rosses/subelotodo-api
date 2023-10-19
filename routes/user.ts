@@ -1,16 +1,18 @@
 import { Router } from "express";
-import { deleteUser, getUser, getUsers, postUser, putUser , getUserByEmail} from "../controllers/user";
-import { check } from 'express-validator';
+import { deleteUser, getUser, getUserByEmail, getUsers, postUser, putUser } from "../controllers/user";
+import { check } from "express-validator";
 import { emailExists } from "../helpers/db-validator";
-import { validateFields } from '../middlewares/validate-fields'
+import { validateFields } from "../middlewares/validate-fields";
+import validateToken from "./validateToken";
+
 
 const router = Router();
 
-router.get('/',     getUsers);
+router.get('/', validateToken, getUsers);
 
-router.get('/:id',  getUser);
+router.get('/byId/:id', validateToken, getUser);
 
-router.post('/byEmail', getUserByEmail);
+router.get('/byEmail/',validateToken, getUserByEmail);
 
 router.post('/',[
     check('firstName', 'El primer nombre es un campo obligatorio').not().isEmpty(),
@@ -19,10 +21,10 @@ router.post('/',[
     check('email', 'El correo no es válido').isEmail(),
     check('email').custom(emailExists),
     validateFields
-] ,postUser);
+] ,validateToken,postUser);
 
-router.put('/:id',  putUser);
+router.put('/:id', validateToken, putUser);
 
-router.delete('/:id',  deleteUser);
+router.delete('/:id', validateToken, deleteUser);
 
 export default router;

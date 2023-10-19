@@ -1,18 +1,34 @@
-import express, {  Application } from "express";
-import userRoutes from "../routes/user";
-import cors from 'cors'; 
-import { PrismaClient } from '@prisma/client'
 
+import userRoutes from "../routes/user";
+import categoryRoutes from "../routes/category";
+import subcategoryRoutes from "../routes/subcategory"
+import stateRoutes from "../routes/state"
+import cityRoutes from "../routes/city"
+import tagRoutes from "../routes/tag"
+import productTagRoutes from "../routes/productTag"
+//import dimensionsRoutes from "../routes/dimensions"
+import productImageRoutes from "../routes/productImage"
+import productRoutes from "../routes/product"
+import loginRoutes from "../routes/login"
+import express, { Application } from "express";
+import { PrismaClient } from "@prisma/client";
+import cors from "cors";
+import { json } from "body-parser";
 interface Paths {
-    // auth: string;
+    auth: string;
     // search: string;
-    // categories: string;
-    // products: string;
     users: string;
+    categories: string;
+    subcategories: string;
+    states:string;
+    cities:string;
+    tags:string;
+    productTags:string;
+    //dimensions:string;
+    productImages:string;
+    products: string;
     // uploads: string;
 }
-
-
 
 class Server {
 
@@ -25,7 +41,17 @@ class Server {
         this.port = process.env.PORT || '8000';
         this.prisma = new PrismaClient(); // Inicializa el cliente de Prisma
         this.paths = {
-            users: '/api/Users',
+            users: '/api/users',
+            categories: '/api/categories',
+            subcategories: '/api/subcategories',
+            states: '/api/states',
+            cities: '/api/cities',
+            tags: '/api/tags',
+            productTags: '/api/productTags',
+            //dimensions: '/api/dimensions',
+            productImages: '/api/productImages',
+            products: '/api/products',
+            auth: '/api/login'
         }; 
         //Metodos iniciales
         this.dbConnection();
@@ -49,14 +75,26 @@ class Server {
         this.app.use( cors());
 
         //Lectura del body
-        this.app.use( express.json() );
+        this.app.use( json() );
 
+        //this.app.use(express.static('uploads'))
+        this.app.use( express.static('uploads'))
         //Carpeta publica
         // this.app.use(  express.static('public') );
     }
 
     routes(){
-        this.app.use(  this.paths.users, userRoutes )
+        this.app.use(  this.paths.users, userRoutes ),
+        this.app.use(  this.paths.categories, categoryRoutes ),
+        this.app.use(  this.paths.subcategories, subcategoryRoutes ),
+        this.app.use(  this.paths.states, stateRoutes ),
+        this.app.use(  this.paths.cities, cityRoutes ),
+        this.app.use(  this.paths.tags, tagRoutes ),
+        this.app.use(  this.paths.productTags, productTagRoutes ),
+        //this.app.use(  this.paths.dimensions, dimensionsRoutes ),
+        this.app.use(  this.paths.productImages, productImageRoutes ),
+        this.app.use(  this.paths.products, productRoutes ),
+        this.app.use(  this.paths.auth, loginRoutes)
     }
 
     listen(){

@@ -1,0 +1,14 @@
+-- AlterTable
+ALTER TABLE `categories` ADD COLUMN `created_at` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
+    ADD COLUMN `deleted_at` DATETIME(3) NULL,
+    ADD COLUMN `updated_at` DATETIME(3) NULL;
+
+-- AlterTable
+ALTER TABLE `provinces` ADD COLUMN `created_at` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
+    ADD COLUMN `deleted_at` DATETIME(3) NULL,
+    ADD COLUMN `updated_at` DATETIME(3) NULL;
+
+-- AlterTable
+ALTER TABLE `subcategories` ADD COLUMN `created_at` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
+    ADD COLUMN `deleted_at` DATETIME(3) NULL,
+    ADD COLUMN `updated_at` DATETIME(3) NULL;

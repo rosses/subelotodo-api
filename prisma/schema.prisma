@@ -7,20 +7,152 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
-  id            Int       @unique(map: "id") @default(autoincrement()) @db.Int
-  firstName     String    @db.VarChar(255)
-  lastName      String    @db.VarChar(255)
-  email         String    @unique(map:"email") @db.VarChar(255)
-  password      String    @db.VarChar(255)
-  address       String?   @db.VarChar(255)
-  state         String?   @db.VarChar(255)
-  city          String?   @db.VarChar(255)
-  zipcode       Int?       
-  type          Int?      @db.TinyInt
-  phone         Int?       
-  birthday      DateTime?
-  createdAt     DateTime? @default(now()) @map("created_at")
-  updatedAt     DateTime? @updatedAt @map("updated_at")
-  deletedAt     DateTime? @map("deleted_at")
+model Users {
+  id        Int        @unique(map: "id") @default(autoincrement()) @db.Int
+  firstName String     @db.VarChar(255)
+  lastName  String     @db.VarChar(255)
+  email     String     @unique(map: "email") @db.VarChar(255)
+  password  String     @db.VarChar(255)
+  address   String     @db.VarChar(255)
+  stateId   Int        @db.Int
+  cityId    Int        @db.Int
+  zipcode   Int?
+  type      Int        @db.TinyInt
+  phone     Int
+  birthday  DateTime
+  products  Products[]
+  //refreshTokens RefreshToken[]
+  states    States     @relation(fields: [stateId], references: [id])
+  cities    Cities     @relation(fields: [cityId], references: [id])
+  gender    String?    @db.VarChar(255)
+  createdAt DateTime?  @default(now()) @map("created_at")
+  updatedAt DateTime?  @updatedAt @map("updated_at")
+  deletedAt DateTime?  @map("deleted_at")
+}
+
+//model RefreshToken {
+//  id          String   @id @unique @default(uuid())
+//  hashedToken String
+//  userId      Int
+//  user        Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+//  revoked     Boolean  @default(false)
+//  createdAt   DateTime @default(now())
+//  updatedAt   DateTime @updatedAt
+//}
+
+model Categories {
+  id            Int             @unique(map: "id") @default(autoincrement()) @db.Int
+  name          String          @db.VarChar(225)
+  subcategories Subcategories[]
+  products      Products[]
+  createdAt     DateTime?       @default(now()) @map("created_at")
+  updatedAt     DateTime?       @updatedAt @map("updated_at")
+  deletedAt     DateTime?       @map("deleted_at")
+}
+
+model Subcategories {
+  id         Int        @unique(map: "id") @default(autoincrement()) @db.Int
+  categoryId Int        @db.Int
+  name       String     @db.VarChar(225)
+  products   Products[]
+  category   Categories @relation(fields: [categoryId], references: [id])
+  createdAt  DateTime?  @default(now()) @map("created_at")
+  updatedAt  DateTime?  @updatedAt @map("updated_at")
+  deletedAt  DateTime?  @map("deleted_at")
+}
+
+model States {
+  id        Int        @unique(map: "id") @default(autoincrement()) @db.Int
+  name      String     @db.VarChar(225)
+  cities    Cities[]
+  createdAt DateTime?  @default(now()) @map("created_at")
+  updatedAt DateTime?  @updatedAt @map("updated_at")
+  deletedAt DateTime?  @map("deleted_at")
+  users     Users[]
+  products  Products[]
+}
+
+model Cities {
+  id        Int        @unique(map: "id") @default(autoincrement()) @db.Int
+  name      String     @db.VarChar(225)
+  stateId   Int        @db.Int
+  products  Products[]
+  state     States     @relation(fields: [stateId], references: [id])
+  createdAt DateTime?  @default(now()) @map("created_at")
+  updatedAt DateTime?  @updatedAt @map("updated_at")
+  deletedAt DateTime?  @map("deleted_at")
+  users     Users[]
+}
+
+model ProductTags {
+  id        Int       @unique(map: "id") @default(autoincrement()) @db.Int
+  productId Int       @db.Int
+  tagId     Int       @db.Int
+  tag       Tags      @relation(fields: [tagId], references: [id])
+  product   Products  @relation(fields: [productId], references: [id])
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+}
+
+model Tags {
+  id          Int           @unique(map: "id") @default(autoincrement()) @db.Int
+  name        String        @db.VarChar(225)
+  productTags ProductTags[]
+  createdAt   DateTime?     @default(now()) @map("created_at")
+  updatedAt   DateTime?     @updatedAt @map("updated_at")
+  deletedAt   DateTime?     @map("deleted_at")
+}
+
+model Products {
+  id               Int             @unique(map: "id") @default(autoincrement()) @db.Int
+  title            String          @db.VarChar(255)
+  subcategoryId    Int             @db.Int
+  subcategory      Subcategories   @relation(fields: [subcategoryId], references: [id])
+  categoryId       Int             @db.Int
+  category         Categories      @relation(fields: [categoryId], references: [id])
+  userId           Int             @db.Int
+  user             Users           @relation(fields: [userId], references: [id])
+  productTags      ProductTags[]
+  //dimensions       Dimensions[]
+  ProductImages    ProductImages[]
+  cityId           Int             @db.Int
+  city             Cities          @relation(fields: [cityId], references: [id])
+  stateId          Int             @db.Int
+  state            States          @relation(fields: [stateId], references: [id])
+  description      String          @db.VarChar(255)
+  condition        String          @db.VarChar(255)
+  price            Int             @db.Int
+  referencialPrice Int             @db.Int
+  saleState        String          @db.VarChar(225)
+  height           Decimal         @db.Decimal
+  weight           Decimal         @db.Decimal
+  width            Decimal         @db.Decimal
+  length           Decimal         @db.Decimal
+  createdAt        DateTime?       @default(now()) @map("created_at")
+  updatedAt        DateTime?       @updatedAt @map("updated_at")
+  deletedAt        DateTime?       @map("deleted_at")
+}
+
+//model Dimensions {
+//  id        Int       @unique(map: "id") @default(autoincrement()) @db.Int
+//  productId Int       @db.Int
+//  product   Products  @relation(fields: [productId], references: [id])
+//  length    Decimal   @default(0) @db.Decimal
+//  width     Decimal   @default(0) @db.Decimal
+//  height    Decimal   @default(0) @db.Decimal
+//  weight    Decimal   @default(0) @db.Decimal
+//  createdAt DateTime? @default(now()) @map("created_at")
+//  updatedAt DateTime? @updatedAt @map("updated_at")
+//  deletedAt DateTime? @map("deleted_at")
+//}
+
+model ProductImages {
+  id        Int       @unique(map: "id") @default(autoincrement()) @db.Int
+  filePath  String    @db.VarChar(225)
+  productId Int       @db.Int
+  product   Products  @relation(fields: [productId], references: [id])
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
 }
