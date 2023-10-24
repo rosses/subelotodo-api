@@ -76,9 +76,10 @@ class Server {
 
         //CORS
         this.app.use( cors({
-            origin: ['http://localhost:4200'],
-            methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-            credentials: true, // Habilita el intercambio de cookies o encabezados de autenticación (si es necesario)
+            origin: 'http://localhost:4200',
+            methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
+            allowedHeaders: ['Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization'],
+            credentials: true
         }));
 
         //Lectura del body
