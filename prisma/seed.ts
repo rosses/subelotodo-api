@@ -759,11 +759,11 @@ async function main() {
  
     
 
-    for (let data of listUserTypes) {
+    /*for (let data of listUserTypes) {
         await prisma.userTypes.create({
           data,
         });
-    }
+    }*/
 
     for (let data of listCategories) {
         await prisma.categories.create({
