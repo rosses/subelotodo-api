@@ -76,7 +76,7 @@ class Server {
 
         //CORS
         this.app.use( cors({
-            origin: 'http://localhost:4200',
+            origin: '*',
             methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
           }));
         //Lectura del body
