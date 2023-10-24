@@ -9,7 +9,7 @@
 
 */
 -- DropForeignKey
-ALTER TABLE `dimensions` DROP FOREIGN KEY `Dimensions_productId_fkey`;
+ALTER TABLE `dimensions` DROP FOREIGN KEY `dimensions_productId_fkey`;
 
 -- AlterTable
 ALTER TABLE `products` ADD COLUMN `hight` DECIMAL NOT NULL,

@@ -12,7 +12,7 @@ ALTER TABLE `subcategories` DROP FOREIGN KEY `subcategories_categoryId_fkey`;
 ALTER TABLE `subcategories` ADD COLUMN `categoryName` VARCHAR(191) NOT NULL;
 
 -- CreateIndex
-CREATE UNIQUE INDEX `Categories_id_name_key` ON `Categories`(`id`, `name`);
+CREATE UNIQUE INDEX `categories_id_name_key` ON `Categories`(`id`, `name`);
 
 -- AddForeignKey
 ALTER TABLE `subcategories` ADD CONSTRAINT `subcategories_categoryId_categoryName_fkey` FOREIGN KEY (`categoryId`, `categoryName`) REFERENCES `categories`(`id`, `name`) ON DELETE RESTRICT ON UPDATE CASCADE;

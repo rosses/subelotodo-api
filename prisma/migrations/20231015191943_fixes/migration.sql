@@ -9,7 +9,7 @@
 
 */
 -- DropForeignKey
-ALTER TABLE `refreshtoken` DROP FOREIGN KEY `RefreshToken_userId_fkey`;
+ALTER TABLE `refreshtoken` DROP FOREIGN KEY `refreshToken_userId_fkey`;
 
 -- AlterTable
 ALTER TABLE `dimensions` MODIFY `length` DECIMAL NOT NULL DEFAULT 0,
