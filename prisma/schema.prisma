@@ -7,6 +7,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model UserTypes {
+  id        Int       @unique(map: "id") @default(autoincrement()) @db.Int
+  name      String    @db.VarChar(255)
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  Users     Users[]
+}
+
 model Users {
   id        Int        @unique(map: "id") @default(autoincrement()) @db.Int
   firstName String     @db.VarChar(255)
@@ -16,12 +25,12 @@ model Users {
   address   String     @db.VarChar(255)
   stateId   Int        @db.Int
   cityId    Int        @db.Int
+  type      Int        @db.Int
   zipcode   Int?
-  type      Int        @db.TinyInt
   phone     Int
   birthday  DateTime
   products  Products[]
-  //refreshTokens RefreshToken[]
+  userType  UserTypes  @relation(fields: [type], references: [id])
   states    States     @relation(fields: [stateId], references: [id])
   cities    Cities     @relation(fields: [cityId], references: [id])
   gender    String?    @db.VarChar(255)
@@ -29,16 +38,6 @@ model Users {
   updatedAt DateTime?  @updatedAt @map("updated_at")
   deletedAt DateTime?  @map("deleted_at")
 }
-
-//model RefreshToken {
-//  id          String   @id @unique @default(uuid())
-//  hashedToken String
-//  userId      Int
-//  user        Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
-//  revoked     Boolean  @default(false)
-//  createdAt   DateTime @default(now())
-//  updatedAt   DateTime @updatedAt
-//}
 
 model Categories {
   id            Int             @unique(map: "id") @default(autoincrement()) @db.Int
@@ -114,7 +113,6 @@ model Products {
   userId           Int             @db.Int
   user             Users           @relation(fields: [userId], references: [id])
   productTags      ProductTags[]
-  //dimensions       Dimensions[]
   ProductImages    ProductImages[]
   cityId           Int             @db.Int
   city             Cities          @relation(fields: [cityId], references: [id])
@@ -133,19 +131,6 @@ model Products {
   updatedAt        DateTime?       @updatedAt @map("updated_at")
   deletedAt        DateTime?       @map("deleted_at")
 }
-
-//model Dimensions {
-//  id        Int       @unique(map: "id") @default(autoincrement()) @db.Int
-//  productId Int       @db.Int
-//  product   Products  @relation(fields: [productId], references: [id])
-//  length    Decimal   @default(0) @db.Decimal
-//  width     Decimal   @default(0) @db.Decimal
-//  height    Decimal   @default(0) @db.Decimal
-//  weight    Decimal   @default(0) @db.Decimal
-//  createdAt DateTime? @default(now()) @map("created_at")
-//  updatedAt DateTime? @updatedAt @map("updated_at")
-//  deletedAt DateTime? @map("deleted_at")
-//}
 
 model ProductImages {
   id        Int       @unique(map: "id") @default(autoincrement()) @db.Int

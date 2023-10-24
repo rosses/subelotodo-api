@@ -6,6 +6,7 @@ import stateRoutes from "../routes/state"
 import cityRoutes from "../routes/city"
 import tagRoutes from "../routes/tag"
 import productTagRoutes from "../routes/productTag"
+import userTypeRoutes from "../routes/userType"
 //import dimensionsRoutes from "../routes/dimensions"
 import productImageRoutes from "../routes/productImage"
 import productRoutes from "../routes/product"
@@ -24,6 +25,7 @@ interface Paths {
     cities:string;
     tags:string;
     productTags:string;
+    userTypes:string;
     //dimensions:string;
     productImages:string;
     products: string;
@@ -48,6 +50,7 @@ class Server {
             cities: '/api/cities',
             tags: '/api/tags',
             productTags: '/api/productTags',
+            userTypes:'/api/userTypes',
             //dimensions: '/api/dimensions',
             productImages: '/api/productImages',
             products: '/api/products',
@@ -91,6 +94,7 @@ class Server {
         this.app.use(  this.paths.cities, cityRoutes ),
         this.app.use(  this.paths.tags, tagRoutes ),
         this.app.use(  this.paths.productTags, productTagRoutes ),
+        this.app.use(  this.paths.userTypes, userTypeRoutes ),
         //this.app.use(  this.paths.dimensions, dimensionsRoutes ),
         this.app.use(  this.paths.productImages, productImageRoutes ),
         this.app.use(  this.paths.products, productRoutes ),

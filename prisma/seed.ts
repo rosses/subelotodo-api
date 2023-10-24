@@ -740,20 +740,42 @@ const listCategories = [
     },
 ]
 
+const listUserTypes = [
+    {
+        id:1,
+        name: 'Administrador',
+    },
+    {
+        id:2,
+        name: 'Vendedor',
+    },
+    {
+        id:3,
+        name: 'Cliente',
+    },
+]
+
 async function main() {
  
+    
 
-  for (let data of listCategories) {
-    await prisma.categories.create({
-      data,
-    });
-  }
+    for (let data of listUserTypes) {
+        await prisma.userTypes.create({
+          data,
+        });
+    }
 
-  for (let data of listRegiones) {
-    await prisma.states.create({
-      data,
-    });
-  }
+    for (let data of listCategories) {
+        await prisma.categories.create({
+        data,
+        });
+    }
+
+    for (let data of listRegiones) {
+        await prisma.states.create({
+        data,
+        });
+    }
 
   const superAdmin = await prisma.users.create({
     data: {
@@ -764,7 +786,7 @@ async function main() {
       address:'Admin',
       stateId:1,
       cityId:1,
-      type:0,
+      type:1,
       phone:11111111,
       birthday:new Date(Date.now()),
     },
