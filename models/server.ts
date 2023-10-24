@@ -75,15 +75,10 @@ class Server {
     middlewares(){
 
         //CORS
-        this.app.use((req, res, next) => {
-            res.header('Access-Control-Allow-Origin', 'http://localhost:4200'); // Reemplaza con tu dominio local
-            res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-            res.header('Access-Control-Allow-Headers', 'Content-Type');
-            next();
-          });
-
         this.app.use( cors({
-            origin: 'http://localhost:4200',}));
+            origin: 'http://localhost:4200',
+            methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+          }));
         //Lectura del body
         this.app.use( json() );
 
