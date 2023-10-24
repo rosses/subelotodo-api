@@ -75,7 +75,11 @@ class Server {
     middlewares(){
 
         //CORS
-        this.app.use( cors());
+        this.app.use( cors({
+            origin: ['http://localhost:4200'],
+            methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+            credentials: true, // Habilita el intercambio de cookies o encabezados de autenticación (si es necesario)
+        }));
 
         //Lectura del body
         this.app.use( json() );
