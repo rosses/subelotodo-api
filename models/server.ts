@@ -75,7 +75,13 @@ class Server {
     middlewares(){
 
         //CORS
-        this.app.use(cors());
+        const corsOptions = {
+            origin: 'https://ezab.cl',  // Reemplaza con el dominio de tu frontend
+            methods: 'GET,POST,PUT,DELETE',
+            allowedHeaders: 'Content-Type,Authorization',
+          };
+          
+          this.app.use(cors(corsOptions));
         //Lectura del body
         this.app.use( json() );
 
