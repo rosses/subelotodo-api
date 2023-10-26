@@ -17,8 +17,9 @@ export const loginUser = async (req: Request, res: Response) => {
         if(bcryptjs.compareSync(password, existeEmail.password)){
             const id =existeEmail.id
             const type=existeEmail.type
+            const name=existeEmail.firstName
             const token = jwt.sign({email:email},process.env.SECRET_KEY!)
-            res.json({id,type,token,status:'ok'})
+            res.json({id,type,token,status:'ok',name})
         }
         else{
             res.json({msg:'Contraseña incorrecta',status:'error'})

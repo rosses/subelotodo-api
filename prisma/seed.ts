@@ -1,6 +1,17 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
+const listusers = [
+    {
+        email: 'vendedor01@admin.com',
+        pass: 'vendedor01/7455',
+    },
+    {
+        email: 'vendedor02@admin.com',
+        pass: 'vendedor02/1848',
+    },
+]
+
 const listRegiones = [
     {
         name: 'Región Arica y Parinacota',
@@ -778,8 +789,8 @@ async function main() {
     data: {
       firstName: 'Super',
       lastName:'Admin',
-      email: 'super@admin.com',
-      password:'$2a$10$Iu3oJhb5qZG2E0uzoLQhbud9AF61/zbJ6SHb/GSp7sIG49Gv/bsVm',
+      email: 'admin@admin.com',
+      password:'$2y$10$qaWDF21eTMQJs3dLoHnG6uz2W6eT5/Y.fj0SHDU6yvCmEqwE08Ysi',
       address:'Admin',
       stateId:1,
       cityId:1,
