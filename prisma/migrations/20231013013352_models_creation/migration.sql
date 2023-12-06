@@ -8,7 +8,7 @@
 DROP TABLE `provinces`;
 
 -- CreateTable
-CREATE TABLE `ctates` (
+CREATE TABLE `states` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(225) NOT NULL,
     `created_at` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),

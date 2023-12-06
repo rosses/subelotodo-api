@@ -6,11 +6,11 @@ import validateToken from "./validateToken";
 
 const router = Router();
 
-router.get('/',validateToken, getCities);
+router.get('/', getCities);
 
-router.get('/byId/:id',validateToken, getCity);
+router.get('/byId/:id', getCity);
 
-router.get('/byState/:stateId',validateToken, getCitiesByState);
+router.get('/byState/:stateId', getCitiesByState);
 
 router.post('/',[
     check('name', 'El nombre es un campo obligatorio').not().isEmpty(),

@@ -6,6 +6,7 @@ export const getProducts = async(req: Request,res: Response) =>{
     const products = await Product.findMany({
       where: {
         deletedAt: null,
+        stock: {not:0},
       },
       include: {
         category:true,
@@ -15,6 +16,7 @@ export const getProducts = async(req: Request,res: Response) =>{
         //dimensions:true,
         productTags:true,
         ProductImages:true,
+        user:true,
       },
     });
     res.json(products);
@@ -33,9 +35,10 @@ export const getProduct = async(req: Request,res: Response) =>{
         subcategory:true,
         state:true,
         city:true,
-        //dimensions:true,
+        //dimensions:true,  
         productTags:true,
         ProductImages:true,
+        user:true,
       },
     });
     if (product) {
@@ -69,6 +72,7 @@ export const getProductsByUser = async( req: Request, res: Response) => {
           //dimensions:true,
           productTags:true,
           ProductImages:true,
+        user:true,
         },
       });
       if (product) {
@@ -102,6 +106,7 @@ export const getProductsBySubcategory = async( req: Request, res: Response) => {
           //dimensions:true,
           productTags:true,
           ProductImages:true,
+        user:true,
         },
       });
       if (product) {
@@ -135,6 +140,7 @@ export const getProductsByCategory = async( req: Request, res: Response) => {
           //dimensions:true,
           productTags:true,
           ProductImages:true,
+        user:true,
         },
       });
       if (product) {
@@ -168,6 +174,7 @@ export const getProductsByCity = async( req: Request, res: Response) => {
           //dimensions:true,
           productTags:true,
           ProductImages:true,
+        user:true,
         },
       });
       if (product) {
@@ -200,6 +207,7 @@ export const getProductsByState = async( req: Request, res: Response) => {
           //dimensions:true,
           productTags:true,
           ProductImages:true,
+        user:true,
         },
       });
       if (product) {
@@ -244,7 +252,7 @@ export const postProduct = async( req: Request , res: Response ) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      msg: 'Error al registrar el producto'
+      msg: 'Error al registrar el producto'+error
     });
   }
 }

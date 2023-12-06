@@ -3,14 +3,17 @@ import userRoutes from "../routes/user";
 import categoryRoutes from "../routes/category";
 import subcategoryRoutes from "../routes/subcategory"
 import stateRoutes from "../routes/state"
+import orderStateRoutes from "../routes/orderState"
 import cityRoutes from "../routes/city"
 import tagRoutes from "../routes/tag"
 import productTagRoutes from "../routes/productTag"
 import userTypeRoutes from "../routes/userType"
+import shipmentRoutes from "../routes/shipment"
 //import dimensionsRoutes from "../routes/dimensions"
 import productImageRoutes from "../routes/productImage"
 import productRoutes from "../routes/product"
 import loginRoutes from "../routes/login"
+import shoppingCartRoutes from "../routes/shoppingCart"
 import express, { Application } from "express";
 import { PrismaClient } from "@prisma/client";
 import cors from "cors";
@@ -29,6 +32,9 @@ interface Paths {
     //dimensions:string;
     productImages:string;
     products: string;
+    shoppingCart:string;
+    orderState:string;
+    shipment:string;
     // uploads: string;
 }
 
@@ -54,7 +60,10 @@ class Server {
             //dimensions: '/api/dimensions',
             productImages: '/api/productImages',
             products: '/api/products',
-            auth: '/api/login'
+            auth: '/api/login',
+            shoppingCart: '/api/shoppingCart',
+            orderState:'/api/orderState',
+            shipment:'/api/shipment',
         }; 
         //Metodos iniciales
         this.dbConnection();
@@ -76,7 +85,7 @@ class Server {
 
         //CORS
         
-          this.app.use(cors());
+        this.app.use(cors());
         //Lectura del body
         this.app.use( json() );
 
@@ -98,7 +107,10 @@ class Server {
         //this.app.use(  this.paths.dimensions, dimensionsRoutes ),
         this.app.use(  this.paths.productImages, productImageRoutes ),
         this.app.use(  this.paths.products, productRoutes ),
-        this.app.use(  this.paths.auth, loginRoutes)
+        this.app.use(  this.paths.auth, loginRoutes),
+        this.app.use(  this.paths.shoppingCart, shoppingCartRoutes),
+        this.app.use(  this.paths.orderState, orderStateRoutes),
+        this.app.use(  this.paths.shipment,shipmentRoutes)
     }
 
     listen(){

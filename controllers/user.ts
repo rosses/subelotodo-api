@@ -1,13 +1,27 @@
 import { Request, Response } from "express";
 import User from "../models/user";
 import bcryptjs  from 'bcryptjs';
-import { now } from "sequelize/types/utils";
 
 
 export const getUsers = async(req: Request,res: Response) =>{
 
     const users = await User.findMany();
     res.json(users);
+}
+
+export const getSellers = async(req: Request,res: Response) =>{
+
+  const sellers = await User.findMany(
+    {
+      where: {
+        type: 2,
+      },
+      include: {
+        userType: true,
+      },
+    }
+  );
+  res.json(sellers);
 }
 
 export const getUser = async(req: Request,res: Response) =>{
@@ -29,17 +43,17 @@ export const getUser = async(req: Request,res: Response) =>{
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      msg: 'Error al obtener el eeerrusuario'
+      msg: 'Error al obtener el usuario'
     });
   }
 }
 
 export const getUserByEmail = async( req: Request, res: Response) => {
-  const { email } = req.body;
+  const { email } = req.params;
     try {
       const user = await User.findUnique({
         where: {
-          email: (email),
+          email: email  ,
         },
       });
       if (user) {
@@ -52,7 +66,7 @@ export const getUserByEmail = async( req: Request, res: Response) => {
     } catch (error) {
       console.error(error);
       res.status(500).json({
-        msg: 'Error al obtener el usuarissssso'
+        msg: 'Error al obtener el usuario'
       });
     }
 }
@@ -61,27 +75,37 @@ export const postUser = async( req: Request , res: Response ) => {
 
     const { body } = req;
   try {
-
-    // Encriptar la contraseña
+    const existeEmail = await User.findUnique({
+      where: {
+          email: (body.email),
+      },
+  });
+    if (existeEmail) {
+      return res.status(404).json({
+        msg: `Ya existe un usuario con el email ${body.email}`
+      });
+    }else{
+      // Encriptar la contraseña
     const salt = bcryptjs.genSaltSync();
     body.password = bcryptjs.hashSync( body.password, salt );
-
     const user = await User.create({
       data: {
+        type: body.type,
         firstName: body.firstName,
         lastName: body.lastName,
         email: body.email,
         password: body.password,
         address: body.address,
-        stateId: body.state,
-        cityId: body.city,
-        type: body.type,
+        stateId: body.stateId,
+        cityId: body.cityId,
         phone: body.phone,
         birthday: body.birthday,
-        createdAt: body.createdAt,
       },
     });
     res.json(user)
+    }
+
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({
