@@ -3,21 +3,96 @@ import Product from "../models/product";
 
 
 export const getProducts = async(req: Request,res: Response) =>{
-    const products = await Product.findMany({
-      where: {
-        deletedAt: null,
-      },
-      include: {
-        category:true,
-        subcategory:true,
-        state:true,
-        city:true,
-        //dimensions:true,
-        productTags:true,
-        ProductImages:true,
-      },
-    });
-    res.json(products);
+  const products = await Product.findMany({
+    where: {
+      deletedAt: null,
+      stock: {not:0},
+      approved: true,
+    },
+    include: {
+      category:true,
+      subcategory:true,
+      state:true,
+      city:true,
+      questions:true,
+      //dimensions:true,
+      productTags:true,
+      ProductImages:true,
+      user:true,
+    },
+  });
+  res.json(products);
+}
+
+export const getProductsToApprove = async(req: Request,res: Response) =>{
+  const products = await Product.findMany({
+    where: {
+      deletedAt: null,
+      stock: {not:0},
+      approved: false,
+    },
+    include: {
+      category:true,
+      subcategory:true,
+      state:true,
+      questions:true,
+      city:true,
+      //dimensions:true,
+      productTags:true,
+      ProductImages:true,
+      user:true,
+    },
+  });
+  res.json(products);
+}
+
+export const getProductsToHome = async(req: Request,res: Response) =>{
+  const products = await Product.findMany({
+    take: 10,
+    where: {
+      deletedAt: null,
+      stock: {not:0},
+      approved: true,
+    },
+    include: {
+      category:true,
+      subcategory:true,
+      state:true,
+      questions:true,
+      city:true,
+      //dimensions:true,
+      productTags:true,
+      ProductImages:true,
+      user:true,
+    },
+  });
+  res.json(products);
+}
+
+
+
+export const getProductsToDiscount = async(req: Request,res: Response) =>{
+  const products = await Product.findMany({
+    orderBy: {discount: 'desc'},
+    take: 10,
+    where: {
+      deletedAt: null,
+      stock: {not:0},
+      approved: true,
+    },
+    include: {
+      category:true,
+      subcategory:true,
+      state:true,
+      questions:true,
+      city:true,
+      //dimensions:true,
+      productTags:true,
+      ProductImages:true,
+      user:true,
+    },
+  });
+  res.json(products);
 }
 
 export const getProduct = async(req: Request,res: Response) =>{
@@ -27,15 +102,18 @@ export const getProduct = async(req: Request,res: Response) =>{
       where: {
         id: parseInt(id),
         deletedAt: null,
+        approved: true,
       },
       include: {
         category:true,
         subcategory:true,
         state:true,
         city:true,
-        //dimensions:true,
+        //dimensions:true,  
         productTags:true,
         ProductImages:true,
+        questions:true,
+        user:true,
       },
     });
     if (product) {
@@ -66,9 +144,11 @@ export const getProductsByUser = async( req: Request, res: Response) => {
           subcategory:true,
           state:true,
           city:true,
+          questions:true,
           //dimensions:true,
           productTags:true,
           ProductImages:true,
+        user:true,
         },
       });
       if (product) {
@@ -93,15 +173,19 @@ export const getProductsBySubcategory = async( req: Request, res: Response) => {
         where: {
           subcategoryId: (parseInt(subcategoryId)),
           deletedAt: null,
+          stock: {not:0},
+          approved: true,
         },
         include: {
           category:true,
           subcategory:true,
           state:true,
           city:true,
+          questions:true,
           //dimensions:true,
           productTags:true,
           ProductImages:true,
+        user:true,
         },
       });
       if (product) {
@@ -126,15 +210,19 @@ export const getProductsByCategory = async( req: Request, res: Response) => {
         where: {
           categoryId: (parseInt(categoryId)),
           deletedAt: null,
+          stock: {not:0},
+          approved: true,
         },
         include: {
           category:true,
           subcategory:true,
           state:true,
           city:true,
+          questions:true,
           //dimensions:true,
           productTags:true,
           ProductImages:true,
+        user:true,
         },
       });
       if (product) {
@@ -159,15 +247,19 @@ export const getProductsByCity = async( req: Request, res: Response) => {
         where: {
           cityId: (parseInt(cityId)),
           deletedAt: null,
+          stock: {not:0},
+          approved: true,
         },
         include: {
           category:true,
           subcategory:true,
+          questions:true,
           state:true,
           city:true,
           //dimensions:true,
           productTags:true,
           ProductImages:true,
+        user:true,
         },
       });
       if (product) {
@@ -184,6 +276,7 @@ export const getProductsByCity = async( req: Request, res: Response) => {
       });
     }
 }
+
 export const getProductsByState = async( req: Request, res: Response) => {
   const { stateId } = req.params;
     try {
@@ -191,15 +284,19 @@ export const getProductsByState = async( req: Request, res: Response) => {
         where: {
           cityId: (parseInt(stateId)),
           deletedAt: null,
+          stock: {not:0},
+          approved: true,
         },
         include: {
           category:true,
           subcategory:true,
+          questions:true,
           state:true,
           city:true,
           //dimensions:true,
           productTags:true,
           ProductImages:true,
+        user:true,
         },
       });
       if (product) {
@@ -222,23 +319,7 @@ export const postProduct = async( req: Request , res: Response ) => {
   const { body } = req;
   try {
     const product = await Product.create({
-      data: {
-        title: body.title,
-        categoryId: body.categoryId,
-        subcategoryId: body.subcategoryId,
-        userId: body.userId,
-        stateId:body.stateId,
-        cityId: body.cityId,
-        description: body.description,
-        condition: body.condition,
-        price: body.price,
-        referencialPrice: body.referencialPrice,
-        saleState: body.saleState,
-        width:body.width,
-        weight:body.weight,
-        length:body.length,
-        height:body.height,
-      },
+      data: body,
     });
     res.json(product)
   } catch (error) {

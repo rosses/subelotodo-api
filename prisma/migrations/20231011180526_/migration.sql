@@ -8,7 +8,7 @@
 ALTER TABLE `subcategories` DROP FOREIGN KEY `subcategories_categoryId_categoryName_fkey`;
 
 -- DropIndex
-DROP INDEX `sategories_id_name_key` ON `categories`;
+DROP INDEX `categories_id_name_key` ON `categories`;
 
 -- AlterTable
 ALTER TABLE `subcategories` DROP COLUMN `categoryName`;

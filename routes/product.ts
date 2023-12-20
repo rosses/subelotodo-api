@@ -1,24 +1,30 @@
 import { Router } from "express";
-import { deleteProduct, getProducts, getProductsByCity,getProductsByUser, getProduct, postProduct, putProduct, getProductsByCategory, getProductsBySubcategory, getProductsByState } from "../controllers/product";
+import { deleteProduct, getProducts, getProductsByCity,getProductsByUser, getProduct, postProduct, putProduct, getProductsByCategory, getProductsBySubcategory, getProductsByState, getProductsToApprove, getProductsToHome, getProductsToDiscount } from "../controllers/product";
 import { check } from "express-validator";
 import { validateFields } from "../middlewares/validate-fields";
 import validateToken from "./validateToken";
 
 const router = Router();
 
-router.get('/',validateToken, getProducts);
+router.get('/', getProducts);
 
-router.get('/byId/:id',validateToken, getProduct);
+router.get('/toApprove/', getProductsToApprove);
 
-router.get('/byCity/:cityId',validateToken, getProductsByCity);
+router.get('/toHome/', getProductsToHome);
 
-router.get('/byState/:stateId',validateToken, getProductsByState);
+router.get('/toDiscount/', getProductsToDiscount);
 
-router.get('/byUser/:userId',validateToken, getProductsByUser);
+router.get('/byId/:id', getProduct);
 
-router.get('/byCategory/:categoryId',validateToken, getProductsByCategory);
+router.get('/byCity/:cityId', getProductsByCity);
 
-router.get('/bySubcategory/:subcategoryId',validateToken, getProductsBySubcategory);
+router.get('/byState/:stateId', getProductsByState);
+
+router.get('/byUser/:userId', getProductsByUser);
+
+router.get('/byCategory/:categoryId', getProductsByCategory);
+
+router.get('/bySubcategory/:subcategoryId', getProductsBySubcategory);
 
 router.post('/',[
     check('title', 'El titulo es un campo obligatorio').not().isEmpty(),

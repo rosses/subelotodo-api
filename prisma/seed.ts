@@ -12,6 +12,18 @@ const listusers = [
     },
 ]
 
+const orderstate = [
+    {
+        stateOrder: 'Aprobada',
+    },
+    {
+        stateOrder: 'Entregada',
+    },
+    {
+        stateOrder: 'Rechazada',
+    },
+]
+
 const listRegiones = [
     {
         name: 'Región Arica y Parinacota',
@@ -476,6 +488,7 @@ const listRegiones = [
 const listCategories = [
     {
         name: 'Tecnologia y electrónica',
+        logo:"assets/images/iconos-categorias/tecnologi╠üa y electro╠ünica.svg",
         subcategories:{
         create: [
                 {
@@ -504,6 +517,7 @@ const listCategories = [
     },
     {
         name: 'Hogar',
+        logo:"assets/images/iconos-categorias/hogar.svg" ,
         subcategories:{
         create: [
                 {
@@ -526,6 +540,7 @@ const listCategories = [
     },
     {
         name: 'Muebles',
+        logo:"assets/images/iconos-categorias/muebles.svg" ,
         subcategories:{
         create: [
                 {
@@ -545,6 +560,7 @@ const listCategories = [
     },
     {
         name: 'Domitorio',
+        logo:"assets/images/iconos-categorias/dormitorio.svg" ,
         subcategories:{
         create: [
                 {
@@ -570,6 +586,7 @@ const listCategories = [
     },
     {
         name: 'Deportes y Aire Libre',
+        logo:"assets/images/iconos-categorias/deporte y aire libre.svg" ,
         subcategories:{
         create: [
                 {
@@ -595,6 +612,7 @@ const listCategories = [
     },
     {
         name: 'Mujer',
+        logo:"assets/images/iconos-categorias/mujer.svg" ,
         subcategories:{
         create: [
                 {
@@ -614,6 +632,7 @@ const listCategories = [
     },
     {
         name: 'Hombre',
+        logo:"assets/images/iconos-categorias/Hombre.svg" ,
         subcategories:{
         create: [
                 {
@@ -630,6 +649,7 @@ const listCategories = [
     },
     {
         name: 'Mundo niños y juguetería',
+        logo:"assets/images/iconos-categorias/mundo nin╠âo y jugueteria.svg" ,
         subcategories:{
         create: [
                 {
@@ -646,6 +666,7 @@ const listCategories = [
     },
     {
         name: 'Belleza y Salud',
+        logo:"assets/images/iconos-categorias/belleza y salud.svg",
         subcategories:{
         create: [
                 {
@@ -665,6 +686,7 @@ const listCategories = [
     },
     {
         name: 'Mundo escolar',
+        logo:"assets/images/iconos-categorias/mundo escolar.svg",
         subcategories:{
         create: [
                 {
@@ -681,6 +703,7 @@ const listCategories = [
     },
     {
         name: 'Antiguedades y arte',
+        logo:"assets/images/iconos-categorias/antiguedades y arte.svg",
         subcategories:{
         create: [
                 {
@@ -700,6 +723,7 @@ const listCategories = [
     },
     {
         name: 'Jardín y Terraza',
+        logo:"assets/images/iconos-categorias/jardi╠ün y terraza.svg",
         subcategories:{
         create: [
                 {
@@ -722,6 +746,7 @@ const listCategories = [
     },
     {
         name: 'Música y Libros',
+        logo:"assets/images/iconos-categorias/mu╠üsica y libros.svg",
         subcategories:{
         create: [
                 {
@@ -738,6 +763,7 @@ const listCategories = [
     },
     {
         name: 'Otras Categorias',
+        logo:"assets/images/iconos-categorias/otras categorii╠üas.svg",
         subcategories:{
         create: [
                 {
@@ -785,6 +811,12 @@ async function main() {
         });
     }
 
+    for (let data of orderstate) {
+        await prisma.orderStates.create({
+        data,
+        });
+    }
+
   const superAdmin = await prisma.users.create({
     data: {
       firstName: 'Super',
@@ -799,7 +831,6 @@ async function main() {
       birthday:new Date(Date.now()),
     },
   })
-
   console.log({ superAdmin })
 }
 main()

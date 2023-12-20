@@ -6,9 +6,9 @@ import validateToken from "./validateToken";
 
 const router = Router();
 
-router.get('/',validateToken, getStates);
+router.get('/', getStates);
 
-router.get('/:id',validateToken, getState);
+router.get('/:id', getState);
 
 router.post('/',[
     check('name', 'El nombre es un campo obligatorio').not().isEmpty(),
