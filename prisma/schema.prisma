@@ -17,38 +17,41 @@ model UserTypes {
 }
 
 model Users {
-  id          Int            @unique(map: "id") @default(autoincrement()) @db.Int
-  firstName   String         @db.VarChar(255)
-  lastName    String         @db.VarChar(255)
-  email       String         @unique(map: "email") @db.VarChar(255)
-  password    String         @db.VarChar(255)
-  address     String         @db.VarChar(255)
-  stateId     Int            @db.Int
-  cart        ShoppingCart[]
-  cityId      Int            @db.Int
-  shipments   Shipments[]
-  type        Int            @db.Int
-  sales       Int            @default(0) @db.Int
-  outstanding Int            @default(0) @db.Int
-  zipcode     Int?
-  phone       Int
-  document    String?        @db.VarChar(225)
-  birthday    DateTime
-  orders      Orders[]
-  products    Products[]
-  userType    UserTypes      @relation(fields: [type], references: [id])
-  states      States         @relation(fields: [stateId], references: [id])
-  cities      Cities         @relation(fields: [cityId], references: [id])
-  gender      String?        @db.VarChar(255)
-  createdAt   DateTime?      @default(now()) @map("created_at")
-  updatedAt   DateTime?      @updatedAt @map("updated_at")
-  deletedAt   DateTime?      @map("deleted_at")
+  id           Int             @unique(map: "id") @default(autoincrement()) @db.Int
+  firstName    String          @db.VarChar(255)
+  lastName     String          @db.VarChar(255)
+  email        String          @unique(map: "email") @db.VarChar(255)
+  password     String          @db.VarChar(255)
+  address      String          @db.VarChar(255)
+  stateId      Int             @db.Int
+  cart         ShoppingCart[]
+  cityId       Int             @db.Int
+  shipments    Shipments[]
+  notification notifications[]
+  type         Int             @db.Int
+  sales        Int             @default(0) @db.Int
+  outstanding  Int             @default(0) @db.Int
+  zipcode      Int?
+  phone        Int
+  document     String?         @db.VarChar(225)
+  birthday     DateTime
+  orders       Orders[]
+  products     Products[]
+  userType     UserTypes       @relation(fields: [type], references: [id])
+  states       States          @relation(fields: [stateId], references: [id])
+  cities       Cities          @relation(fields: [cityId], references: [id])
+  gender       String?         @db.VarChar(255)
+  createdAt    DateTime?       @default(now()) @map("created_at")
+  updatedAt    DateTime?       @updatedAt @map("updated_at")
+  deletedAt    DateTime?       @map("deleted_at")
+  Questions    Questions[]
 }
 
 model Categories {
   id            Int             @unique(map: "id") @default(autoincrement()) @db.Int
   name          String          @db.VarChar(225)
   logo          String          @default("") @db.VarChar(225)
+  banner        String          @default("") @db.VarChar(225)
   subcategories Subcategories[]
   products      Products[]
   createdAt     DateTime?       @default(now()) @map("created_at")
@@ -123,6 +126,9 @@ model Products {
   ProductImages    ProductImages[]
   carts            ShoppingCart[]
   orders           Orders[]
+  notifications    notifications[]
+  questions        Questions[]
+  rejectedTitle    Boolean         @default(false)
   cityId           Int             @db.Int
   city             Cities          @relation(fields: [cityId], references: [id])
   stateId          Int             @db.Int
@@ -135,10 +141,10 @@ model Products {
   stock            Int             @default(1) @db.Int
   referencialPrice Int?            @db.Int
   saleState        String          @db.VarChar(225)
-  height           Decimal         @db.Decimal
-  weight           Decimal         @db.Decimal
-  width            Decimal         @db.Decimal
-  length           Decimal         @db.Decimal
+  height           Decimal?        @db.Decimal
+  weight           Decimal?        @db.Decimal
+  width            Decimal?        @db.Decimal
+  length           Decimal?        @db.Decimal
   createdAt        DateTime?       @default(now()) @map("created_at")
   updatedAt        DateTime?       @updatedAt @map("updated_at")
   deletedAt        DateTime?       @map("deleted_at")
@@ -167,33 +173,45 @@ model ShoppingCart {
 }
 
 model Orders {
-  id           Int         @unique(map: "id") @default(autoincrement()) @db.Int
-  userId       Int         @db.Int
-  user         Users       @relation(fields: [userId], references: [id])
-  productId    Int         @db.Int
-  product      Products    @relation(fields: [productId], references: [id])
-  shipmentId   Int         @db.Int
-  shipment     Shipments   @relation(fields: [shipmentId], references: [id])
-  orderStateId Int         @db.Int
-  orderState   OrderStates @relation(fields: [orderStateId], references: [id])
-  price        Int         @db.Int
-  sellerPaid   Boolean     @default(false)
-  createdAt    DateTime?   @default(now()) @map("created_at")
-  updatedAt    DateTime?   @updatedAt @map("updated_at")
-  deletedAt    DateTime?   @map("deleted_at")
+  id                  Int         @unique(map: "id") @default(autoincrement()) @db.Int
+  userId              Int         @db.Int
+  user                Users       @relation(fields: [userId], references: [id])
+  productId           Int         @db.Int
+  product             Products    @relation(fields: [productId], references: [id])
+  shipmentId          Int         @db.Int
+  shipment            Shipments   @relation(fields: [shipmentId], references: [id])
+  orderStateId        Int         @db.Int
+  orderState          OrderStates @relation(fields: [orderStateId], references: [id])
+  rejectedTitle       String      @db.VarChar(225)
+  rejectedDescription String      @db.VarChar(225)
+  price               Int         @db.Int
+  sellerPaid          Boolean     @default(false)
+  createdAt           DateTime?   @default(now()) @map("created_at")
+  updatedAt           DateTime?   @updatedAt @map("updated_at")
+  deletedAt           DateTime?   @map("deleted_at")
 }
 
 model Shipments {
-  id        Int       @unique(map: "id") @default(autoincrement()) @db.Int
-  amount    Int       @db.Int
-  userId    Int       @db.Int
-  user      Users     @relation(fields: [userId], references: [id])
-  token     String    @db.VarChar(225)
-  valid     Boolean   @default(false)
-  orders    Orders[]
-  createdAt DateTime? @default(now()) @map("created_at")
-  updatedAt DateTime? @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at")
+  id                 Int       @unique(map: "id") @default(autoincrement()) @db.Int
+  amount             Int       @db.Int
+  userId             Int       @db.Int
+  user               Users     @relation(fields: [userId], references: [id])
+  token              String    @db.VarChar(225)
+  vci                String    @db.VarChar(225)
+  status             String    @db.VarChar(225)
+  buyOrder           String    @db.VarChar(225)
+  sessionId          String    @db.VarChar(225)
+  cardNumber         String    @db.VarChar(225)
+  accountingDate     String    @db.VarChar(225)
+  transactionDate    DateTime
+  autorizationCode   String    @db.VarChar(225)
+  paymentTypeCode    String    @db.VarChar(225)
+  responseCode       Int       @db.Int
+  installmentsNumber Int       @db.Int
+  orders             Orders[]
+  createdAt          DateTime? @default(now()) @map("created_at")
+  updatedAt          DateTime? @updatedAt @map("updated_at")
+  deletedAt          DateTime? @map("deleted_at")
 }
 
 model OrderStates {
@@ -203,4 +221,63 @@ model OrderStates {
   createdAt  DateTime? @default(now()) @map("created_at")
   updatedAt  DateTime? @updatedAt @map("updated_at")
   deletedAt  DateTime? @map("deleted_at")
+}
+
+model Questions {
+  id        Int       @unique(map: "id") @default(autoincrement()) @db.Int
+  userId    Int       @db.Int
+  user      Users     @relation(fields: [userId], references: [id])
+  productId Int       @db.Int
+  product   Products  @relation(fields: [productId], references: [id])
+  question  String    @db.VarChar(225)
+  answer    String    @db.VarChar(225)
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+}
+
+model Banners {
+  id        Int       @unique(map: "id") @default(autoincrement()) @db.Int
+  name      String    @db.VarChar(225)
+  title     String    @db.VarChar(225)
+  text      String    @db.VarChar(225)
+  banner    String    @default("") @db.VarChar(225)
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+}
+
+model Faqs {
+  id            Int            @unique(map: "id") @default(autoincrement()) @db.Int
+  question      String         @db.VarChar(225)
+  answer        String         @db.VarChar(225)
+  image         String         @db.VarChar(225)
+  faqCategoryId Int            @db.Int
+  faqCategory   FaqsCategories @relation(fields: [faqCategoryId], references: [id])
+  createdAt     DateTime?      @default(now()) @map("created_at")
+  updatedAt     DateTime?      @updatedAt @map("updated_at")
+  deletedAt     DateTime?      @map("deleted_at")
+}
+
+model FaqsCategories {
+  id        Int       @unique(map: "id") @default(autoincrement()) @db.Int
+  name      String    @db.VarChar(225)
+  faqs      Faqs[]
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+}
+
+model notifications {
+  id        Int       @unique(map: "id") @default(autoincrement()) @db.Int
+  userId    Int       @db.Int
+  user      Users     @relation(fields: [userId], references: [id])
+  productId Int       @db.Int
+  type      String    @default("venta") @db.VarChar(225)
+  product   Products  @relation(fields: [productId], references: [id])
+  support   String    @db.VarChar(225)
+  state     String    @db.VarChar(225)
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
 }

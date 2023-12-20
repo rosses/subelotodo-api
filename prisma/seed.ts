@@ -12,6 +12,18 @@ const listusers = [
     },
 ]
 
+const orderstate = [
+    {
+        stateOrder: 'Aprobada',
+    },
+    {
+        stateOrder: 'Entregada',
+    },
+    {
+        stateOrder: 'Rechazada',
+    },
+]
+
 const listRegiones = [
     {
         name: 'Región Arica y Parinacota',
@@ -799,6 +811,12 @@ async function main() {
         });
     }
 
+    for (let data of orderstate) {
+        await prisma.orderStates.create({
+        data,
+        });
+    }
+
   const superAdmin = await prisma.users.create({
     data: {
       firstName: 'Super',
@@ -813,7 +831,6 @@ async function main() {
       birthday:new Date(Date.now()),
     },
   })
-
   console.log({ superAdmin })
 }
 main()

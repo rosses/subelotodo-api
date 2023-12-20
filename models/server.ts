@@ -13,6 +13,12 @@ import shipmentRoutes from "../routes/shipment"
 import productImageRoutes from "../routes/productImage"
 import productRoutes from "../routes/product"
 import loginRoutes from "../routes/login"
+import orderRoutes from "../routes/order"
+import questionsRoutes from "../routes/questions"
+import bannerRoutes from "../routes/banners"
+import notificationRoutes from "../routes/notifications"
+import faqRoutes from "../routes/faqs"
+import faqCategoryRoutes from "../routes/faqsCategories"
 import shoppingCartRoutes from "../routes/shoppingCart"
 import express, { Application } from "express";
 import { PrismaClient } from "@prisma/client";
@@ -35,6 +41,12 @@ interface Paths {
     shoppingCart:string;
     orderState:string;
     shipment:string;
+    order:string;
+    questions:string;
+    banners:string;
+    notifications:string;
+    faqs:string;
+    faqCategories:string;
     // uploads: string;
 }
 
@@ -62,8 +74,15 @@ class Server {
             products: '/api/products',
             auth: '/api/login',
             shoppingCart: '/api/shoppingCart',
+            order:'/api/order',
             orderState:'/api/orderState',
             shipment:'/api/shipment',
+            questions:'/api/questions',
+            banners:'/api/banners',
+            notifications:'/api/notifications',
+            faqs:'/api/faqs',
+            faqCategories:'/api/faqsCategories',
+            // uploads: '/api/uploads',
         }; 
         //Metodos iniciales
         this.dbConnection();
@@ -104,13 +123,18 @@ class Server {
         this.app.use(  this.paths.tags, tagRoutes ),
         this.app.use(  this.paths.productTags, productTagRoutes ),
         this.app.use(  this.paths.userTypes, userTypeRoutes ),
-        //this.app.use(  this.paths.dimensions, dimensionsRoutes ),
         this.app.use(  this.paths.productImages, productImageRoutes ),
         this.app.use(  this.paths.products, productRoutes ),
         this.app.use(  this.paths.auth, loginRoutes),
         this.app.use(  this.paths.shoppingCart, shoppingCartRoutes),
+        this.app.use(  this.paths.order, orderRoutes ),
         this.app.use(  this.paths.orderState, orderStateRoutes),
-        this.app.use(  this.paths.shipment,shipmentRoutes)
+        this.app.use(  this.paths.shipment,shipmentRoutes),
+        this.app.use(  this.paths.questions,questionsRoutes),
+        this.app.use(  this.paths.banners,bannerRoutes),
+        this.app.use(  this.paths.notifications,notificationRoutes),
+        this.app.use(  this.paths.faqs,faqRoutes),
+        this.app.use(  this.paths.faqCategories,faqCategoryRoutes)
     }
 
     listen(){

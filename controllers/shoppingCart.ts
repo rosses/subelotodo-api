@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
 import ShoppingCart from "../models/shoppingCart";
+import { Environment, IntegrationApiKeys, IntegrationCommerceCodes, Options } from "transbank-sdk";
+const WebpayPlus = require("transbank-sdk").WebpayPlus;
+const TransaccionCompleta = require('transbank-sdk').TransaccionCompleta; // CommonJS
 
 
 export const getShoppingCartItems = async(req: Request,res: Response) =>{
@@ -30,15 +33,17 @@ export const getShoppingCartByUser = async(req: Request,res: Response) =>{
                     ProductImages:true,
                     city:true,
                 },
-            }
+            },
         },
-        });
+        }
+        );
         if (shoppingCart) {
         res.json(shoppingCart);
         } else {
         res.status(404).json({
             msg: `No existen items con el id ${userId}`
-        });
+        }
+        );
         }
     } catch (error) {
         console.error(error);
@@ -124,7 +129,8 @@ export const putShoppingCartItem = async (req: Request,res: Response) =>{
         console.error(error);
         res.status(500).json({
         msg: 'Error al actualizar el item'
-        });
+        }
+        );
     }
 }
 
@@ -158,3 +164,38 @@ export const deleteShoppingCartItem =  async(req: Request,res: Response) =>{
         });
     }
 }
+
+export const createWebpay = async(req: Request, res: Response) =>{
+    const { id, amount, url } = req.body;
+    
+    let sessionId = "S-" + Math.floor(Math.random() * 10000) + 1;
+  
+    try {
+      const createResponse = await (new WebpayPlus.Transaction()).create((id).toString(), sessionId, amount, url);
+      let token = createResponse.token;
+      let tbkToken=createResponse.TBK_TOKEN;
+      let orden=createResponse.TBK_ORDEN_COMPRA;
+      let sesionId=createResponse.TBK_ID_SESION;
+      let return_url = createResponse.url;
+      let data = { token, return_url,tbkToken,orden,sesionId };
+      res.json(data);
+    } catch(error) {
+      console.error(error);
+      res.status(500).json({
+        msg: 'Error al crear la transaccion'
+      });
+    }
+  }
+
+  export const stateWebpay = async(req: Request, res: Response) =>{
+    const { token } = req.params;
+
+    try {
+        const tx = new WebpayPlus.Transaction(new Options(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, Environment.Integration));
+        const response = await tx.commit(token);
+        res.json(response);
+        console.log(response);
+    } catch (error) {
+        console.log(error)
+    } // Para depuración
+};

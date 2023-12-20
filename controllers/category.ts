@@ -11,6 +11,16 @@ export const getCategories = async(req: Request,res: Response) =>{
   res.json(categories);
 }  
 
+export const getCategoriesOffers = async(req: Request,res: Response) =>{
+  const categories = await Category.findMany({
+    include: {
+      products:{take: 5,include:{ProductImages:true}},
+      subcategories:true,
+    },
+  });
+  res.json(categories);
+}  
+
 export const getCategory = async(req: Request,res: Response) =>{
 
   const { id } = req.params;
@@ -20,6 +30,7 @@ export const getCategory = async(req: Request,res: Response) =>{
         id: parseInt(id),
       },
       include: {
+        products:{include:{ProductImages:true,subcategory:true,state:true,city:true,user:true}},
         subcategories:true,
       },
     });

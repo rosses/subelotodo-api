@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteOrder, getOrders, getOrdersByUser, getOrder, postOrder, putOrder } from "../controllers/order";
+import { deleteOrder, getOrders, getOrdersByUser, getOrder, postOrder, putOrder, getOrdersBySeller, getOrdersRejectedBySeller } from "../controllers/order";
 import { check } from "express-validator";
 import { validateFields } from "../middlewares/validate-fields";
 import validateToken from "./validateToken";
@@ -11,6 +11,10 @@ router.get('/',validateToken, getOrders);
 router.get('/byId/:id',validateToken, getOrder);
 
 router.get('/byUser/:userId',validateToken, getOrdersByUser);
+
+router.get('/bySeller/:sellerId',validateToken, getOrdersBySeller);
+
+router.get('/bySellerRejected/:sellerId',validateToken, getOrdersRejectedBySeller);
 
 router.post('/',[
     check('price', 'El precio es un campo obligatorio').not().isEmpty(),

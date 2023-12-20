@@ -1,6 +1,24 @@
 import { Request, Response } from "express";
 import Shipment from "../models/shipment";
 
+export const checkToken = async(req: Request,res: Response) =>{
+
+  const { token } = req.params;
+  try {
+    const shipment = await Shipment.findFirst({
+      where: {
+        token: (token),
+      },
+    });
+    if (shipment) {
+      res.json(true);
+    } else {
+      res.json(false)
+    }
+  } catch (error) {
+    
+  }
+}
 
 export const getShipments = async(req: Request,res: Response) =>{
   const shipments = await Shipment.findMany({
@@ -70,12 +88,7 @@ export const postShipment = async( req: Request , res: Response ) => {
   const { body } = req;
   try {
     const shipment = await Shipment.create({
-      data: {
-        amount: body.amount,
-        token:body.token,
-        userId:body.userId,
-        valid:body.valid,
-      },
+      data: body
     });
     res.json(shipment)
   } catch (error) {

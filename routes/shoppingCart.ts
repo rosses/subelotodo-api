@@ -1,10 +1,20 @@
 import { Router } from "express";
-import { deleteShoppingCartItem, getShoppingCartItems, getShoppingCartItem, postShoppingCartItem, putShoppingCartItem, getShoppingCartByUser } from "../controllers/shoppingCart";
+import { deleteShoppingCartItem, getShoppingCartItems, getShoppingCartItem, postShoppingCartItem, putShoppingCartItem, getShoppingCartByUser, createWebpay, stateWebpay } from "../controllers/shoppingCart";
 import { check } from "express-validator";
 import { validateFields } from "../middlewares/validate-fields";
 import validateToken from "./validateToken";
+const WebpayPlus = require("transbank-sdk").WebpayPlus;
 
 const router = Router();
+
+router.use(function (req, res, next) {
+    if (process.env.WPP_CC && process.env.WPP_KEY) {
+      WebpayPlus.configureForProduction(process.env.WPP_CC, process.env.WPP_KEY);
+    } else {
+      WebpayPlus.configureForTesting();
+    }
+    next();
+});
 
 router.get('/',validateToken, getShoppingCartItems);
 
@@ -22,5 +32,9 @@ router.post('/',[
 router.put('/:id',validateToken,  putShoppingCartItem);
 
 router.delete('/:id',validateToken,  deleteShoppingCartItem);
+
+router.post("/createWebpay/", validateToken, createWebpay);
+
+router.get("/stateWebpay/:token", validateToken, stateWebpay);
 
 export default router;
