@@ -9,7 +9,7 @@
 
 */
 -- DropForeignKey
-ALTER TABLE `shipments` DROP FOREIGN KEY `Shipments_usersId_fkey`;
+ALTER TABLE `Shipments` DROP FOREIGN KEY `Shipments_usersId_fkey`;
 
 -- AlterTable
 ALTER TABLE `products` MODIFY `length` DECIMAL NOT NULL,
@@ -18,7 +18,7 @@ ALTER TABLE `products` MODIFY `length` DECIMAL NOT NULL,
     MODIFY `height` DECIMAL NOT NULL;
 
 -- AlterTable
-ALTER TABLE `shipments` DROP COLUMN `usersId`;
+ALTER TABLE `Shipments` DROP COLUMN `usersId`;
 
 -- AddForeignKey
-ALTER TABLE `Shipments` ADD CONSTRAINT `Shipments_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Shipments` ADD CONSTRAINT `Shipments_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
