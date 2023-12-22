@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Product from "../models/product";
+import { Prisma } from "@prisma/client";
 
 
 export const getProducts = async(req: Request,res: Response) =>{
@@ -22,6 +23,40 @@ export const getProducts = async(req: Request,res: Response) =>{
     },
   });
   res.json(products);
+}
+
+export const searchProducts = async( req: Request, res: Response) => {
+  const { word } = req.params;
+    try {
+      const product = await Product.findMany({
+        where: {
+          title: {contains: word,},
+        },
+        include: {
+          category:true,
+          subcategory:true,
+          state:true,
+          city:true,
+          questions:true,
+          //dimensions:true,
+          productTags:true,
+          ProductImages:true,
+        user:true,
+        },
+      });
+      if (product) {
+        res.json(product);
+      } else {
+        res.status(404).json({
+          msg: `No existen productos con ${word}`
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        msg: 'Error al obtener la busqueda'
+      });
+    }
 }
 
 export const getProductsToApprove = async(req: Request,res: Response) =>{

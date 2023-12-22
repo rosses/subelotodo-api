@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteProduct, getProducts, getProductsByCity,getProductsByUser, getProduct, postProduct, putProduct, getProductsByCategory, getProductsBySubcategory, getProductsByState, getProductsToApprove, getProductsToHome, getProductsToDiscount } from "../controllers/product";
+import { deleteProduct, getProducts, getProductsByCity,getProductsByUser, getProduct, postProduct, putProduct, getProductsByCategory, getProductsBySubcategory, getProductsByState, getProductsToApprove, getProductsToHome, getProductsToDiscount, searchProducts } from "../controllers/product";
 import { check } from "express-validator";
 import { validateFields } from "../middlewares/validate-fields";
 import validateToken from "./validateToken";
@@ -13,6 +13,8 @@ router.get('/toApprove/', getProductsToApprove);
 router.get('/toHome/', getProductsToHome);
 
 router.get('/toDiscount/', getProductsToDiscount);
+
+router.get('/search/:word', searchProducts);
 
 router.get('/byId/:id', getProduct);
 
