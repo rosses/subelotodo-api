@@ -6,6 +6,7 @@ export const getStates = async(req: Request,res: Response) =>{
   const states = await State.findMany({
     include: {
       cities:true,
+      products:true,
     },
   });
   res.json(states);
@@ -21,6 +22,7 @@ export const getState = async(req: Request,res: Response) =>{
       },
       include: {
         cities:true,
+        products:true,
       },
     });
     if (state) {
