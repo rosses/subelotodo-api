@@ -6,7 +6,7 @@ import validateToken from "./validateToken";
 
 const router = Router();
 
-router.get('/',validateToken, getQuestions);
+router.get('/', getQuestions);
 
 router.post('/',[
     validateFields
