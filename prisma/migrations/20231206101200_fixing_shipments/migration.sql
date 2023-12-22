@@ -10,7 +10,7 @@
 
 */
 -- AlterTable
-ALTER TABLE `orders` MODIFY `sellerPaid` BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE `Orders` MODIFY `sellerPaid` BOOLEAN NOT NULL DEFAULT false;
 
 -- AlterTable
 ALTER TABLE `products` MODIFY `length` DECIMAL NOT NULL,
