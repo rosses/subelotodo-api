@@ -62,4 +62,4 @@ ALTER TABLE `Orders` ADD CONSTRAINT `Orders_productId_fkey` FOREIGN KEY (`produc
 ALTER TABLE `Orders` ADD CONSTRAINT `Orders_shipmentId_fkey` FOREIGN KEY (`shipmentId`) REFERENCES `Shipments`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Orders` ADD CONSTRAINT `Orders_orderStateId_fkey` FOREIGN KEY (`orderStateId`) REFERENCES `orderStates`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Orders` ADD CONSTRAINT `Orders_orderStateId_fkey` FOREIGN KEY (`orderStateId`) REFERENCES `OrderStates`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
