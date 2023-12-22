@@ -44,3 +44,6 @@ ALTER TABLE `Shipments` DROP COLUMN `valid`,
     ADD COLUMN `status` VARCHAR(225) NOT NULL,
     ADD COLUMN `transactionDate` DATETIME(3) NOT NULL,
     ADD COLUMN `vci` VARCHAR(225) NOT NULL;
+
+
+
