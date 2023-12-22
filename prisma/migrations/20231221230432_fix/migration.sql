@@ -14,4 +14,4 @@ ALTER TABLE `products` MODIFY `length` DECIMAL NULL,
     MODIFY `height` DECIMAL NULL;
 
 -- CreateIndex
-CREATE FULLTEXT INDEX `Products_title_description_idx` ON `Products`(`title`, `description`);
+CREATE FULLTEXT INDEX `Products_title_description_idx` ON `products`(`title`, `description`);
