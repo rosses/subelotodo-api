@@ -22,7 +22,7 @@
 
 */
 -- AlterTable
-ALTER TABLE `orders` ADD COLUMN `rejectedDescription` VARCHAR(225) NOT NULL,
+ALTER TABLE `Orders` ADD COLUMN `rejectedDescription` VARCHAR(225) NOT NULL,
     ADD COLUMN `rejectedTitle` VARCHAR(225) NOT NULL;
 
 -- AlterTable
@@ -32,7 +32,7 @@ ALTER TABLE `products` MODIFY `length` DECIMAL NULL,
     MODIFY `height` DECIMAL NULL;
 
 -- AlterTable
-ALTER TABLE `shipments` DROP COLUMN `valid`,
+ALTER TABLE `Shipments` DROP COLUMN `valid`,
     ADD COLUMN `accountingDate` VARCHAR(225) NOT NULL,
     ADD COLUMN `autorizationCode` VARCHAR(225) NOT NULL,
     ADD COLUMN `buyOrder` VARCHAR(225) NOT NULL,
