@@ -12,11 +12,11 @@ const multer = require('multer');
 
 const router = Router();
 
-router.get('/',validateToken, getProductImages);
+router.get('/', getProductImages);
 
-router.get('/:id',validateToken, getProductImage);
+router.get('/:id', getProductImage);
 
-router.get('/byProductId/:productId', validateToken,getProductUniqueImages)
+router.get('/byProductId/:productId',getProductUniqueImages)
 
 router.post('/post/',[
     check('productId', 'El producto es un campo obligatorio').not().isEmpty(),

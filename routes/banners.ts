@@ -8,9 +8,9 @@ import { File } from "buffer";
 
 const router = Router();
 
-router.get('/',validateToken, getBanners);
+router.get('/', getBanners);
 
-router.get('/byId/:id',validateToken, getBanner);
+router.get('/byId/:id', getBanner);
 
 router.post('/',[
     validateFields
