@@ -6,11 +6,11 @@ import validateToken from "./validateToken";
 
 const router = Router();
 
-router.get('/',validateToken, getSubCategories);
+router.get('/', getSubCategories);
 
-router.get('/:id',validateToken, getSubCategory);
+router.get('/:id', getSubCategory);
 
-router.get('/byCategory/:id',validateToken, getSubCategoryByCategory);
+router.get('/byCategory/:id', getSubCategoryByCategory);
 
 router.post('/',[
     check('name', 'El nombre es un campo obligatorio').not().isEmpty(),
