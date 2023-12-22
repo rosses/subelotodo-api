@@ -29,10 +29,10 @@ ALTER TABLE `products` DROP FOREIGN KEY `products_subcategoryId_fkey`;
 ALTER TABLE `products` DROP FOREIGN KEY `products_userId_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `producttags` DROP FOREIGN KEY `productTags_productId_fkey`;
+ALTER TABLE `productTags` DROP FOREIGN KEY `productTags_productId_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `producttags` DROP FOREIGN KEY `productTags_tagId_fkey`;
+ALTER TABLE `productTags` DROP FOREIGN KEY `productTags_tagId_fkey`;
 
 -- DropForeignKey
 ALTER TABLE `subcategories` DROP FOREIGN KEY `subcategories_categoryId_fkey`;
