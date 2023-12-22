@@ -9,7 +9,7 @@
 
 */
 -- AlterTable
-ALTER TABLE `faqs` ADD COLUMN `image` VARCHAR(225) NOT NULL;
+ALTER TABLE `Faqs` ADD COLUMN `image` VARCHAR(225) NOT NULL;
 
 -- AlterTable
 ALTER TABLE `products` ADD COLUMN `rejectedTitle` BOOLEAN NOT NULL DEFAULT false,
