@@ -11,7 +11,7 @@
 ALTER TABLE `cities` DROP FOREIGN KEY `cities_stateId_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `productimages` DROP FOREIGN KEY `productImages_productId_fkey`;
+ALTER TABLE `productImages` DROP FOREIGN KEY `productImages_productId_fkey`;
 
 -- DropForeignKey
 ALTER TABLE `products` DROP FOREIGN KEY `products_categoryId_fkey`;
