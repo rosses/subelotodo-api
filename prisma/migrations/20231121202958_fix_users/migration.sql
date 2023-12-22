@@ -53,7 +53,7 @@ ALTER TABLE `products` MODIFY `length` DECIMAL NOT NULL,
     MODIFY `height` DECIMAL NOT NULL;
 
 -- AddForeignKey
-ALTER TABLE `users` ADD CONSTRAINT `users_type_fkey` FOREIGN KEY (`type`) REFERENCES `UserTypes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `users` ADD CONSTRAINT `users_type_fkey` FOREIGN KEY (`type`) REFERENCES `userTypes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Users` ADD CONSTRAINT `users_stateId_fkey` FOREIGN KEY (`stateId`) REFERENCES `States`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
