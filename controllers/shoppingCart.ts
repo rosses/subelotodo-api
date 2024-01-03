@@ -32,6 +32,7 @@ export const getShoppingCartByUser = async(req: Request,res: Response) =>{
                 include:{
                     ProductImages:true,
                     city:true,
+                    user:true,
                 },
             },
         },

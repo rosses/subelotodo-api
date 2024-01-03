@@ -19,6 +19,69 @@ export const getOrders = async(req: Request,res: Response) =>{
     res.json(products);
 }
 
+export const getOrdersThisYear = async(req: Request,res: Response) =>{
+  let date: Date = new Date();
+  const products = await Orders.findMany({
+    where: {
+      deletedAt: null,
+      createdAt: {
+        gte: new Date((date.getFullYear())+'-01-01'),
+      },
+      orderStateId: {not:3},
+    },
+    include: {
+      product:{include:{ProductImages:true,category:true,subcategory:true,user:true,state:true,city:true}},
+      shipment:true,
+      orderState:true,
+      user:true,
+    },
+    orderBy: {createdAt: 'asc'},
+  });
+  res.json(products);
+}
+
+export const getOrdersByDay = async(req: Request,res: Response) =>{
+  let date: Date = new Date();
+  const products = await Orders.findMany({
+    where: {
+      deletedAt: null,
+      createdAt: {
+        gte: new Date(date.setDate(date.getDay()-11)),
+      },
+      orderStateId: {not:3},
+    },
+    include: {
+      product:{include:{ProductImages:true,category:true,subcategory:true,user:true,state:true,city:true}},
+      shipment:true,
+      orderState:true,
+      user:true,
+    },
+    orderBy: {createdAt: 'asc'},
+  });
+  res.json(products);
+}
+
+export const getOrdersByYear = async(req: Request,res: Response) =>{
+  let date: Date = new Date();
+  const products = await Orders.findMany({
+    where: {
+      deletedAt: null,
+      createdAt: {
+        gte: new Date(date.setFullYear(date.getFullYear()-11)),
+      },
+      orderStateId: {not:3},
+    },
+    include: {
+      product:{include:{ProductImages:true,category:true,subcategory:true,user:true,state:true,city:true}},
+      shipment:true,
+      orderState:true,
+      user:true,
+    },
+    orderBy: {createdAt: 'asc'},
+  }); 
+  res.json(products);
+}
+
 export const getOrder = async(req: Request,res: Response) =>{
   const { id } = req.params;
   try {

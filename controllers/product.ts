@@ -31,6 +31,8 @@ export const searchProducts = async( req: Request, res: Response) => {
       const product = await Product.findMany({
         where: {
           title: {contains: word,},
+          deletedAt: null,
+          approved: true,
         },
         include: {
           category:true,
@@ -65,6 +67,7 @@ export const getProductsToApprove = async(req: Request,res: Response) =>{
       deletedAt: null,
       stock: {not:0},
       approved: false,
+      rejectedTitle:false
     },
     include: {
       category:true,
