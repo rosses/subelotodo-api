@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { deleteOrder, getOrders, getOrdersByUser, getOrder, postOrder, putOrder, getOrdersBySeller, getOrdersRejectedBySeller } from "../controllers/order";
+import { deleteOrder, getOrders, getOrdersByUser, getOrder, postOrder, putOrder, getOrdersBySeller, getOrdersRejectedBySeller, getOrdersThisYear, getOrdersByYear, getOrdersByDay } from "../controllers/order";
 import { check } from "express-validator";
 import { validateFields } from "../middlewares/validate-fields";
 import validateToken from "./validateToken";
+import { get } from "http";
 
 const router = Router();
 
@@ -11,6 +12,12 @@ router.get('/',validateToken, getOrders);
 router.get('/byId/:id',validateToken, getOrder);
 
 router.get('/byUser/:userId',validateToken, getOrdersByUser);
+
+router.get('/year/', getOrdersThisYear);
+
+router.get('/byDay/', getOrdersByDay);
+
+router.get('/byYear/', getOrdersByYear);
 
 router.get('/bySeller/:sellerId',validateToken, getOrdersBySeller);
 

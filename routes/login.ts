@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { loginUser } from "../controllers/login";
+import { loginUser, loginUserGoogle } from "../controllers/login";
 import { check } from "express-validator";
 import { validateFields } from "../middlewares/validate-fields";
 
@@ -11,5 +11,7 @@ router.post('/',[
     check('password', 'El password debe de ser más de 6 letras').isLength({ min: 6 }),
     validateFields
 ] ,loginUser);
+
+router.post('/googleLogin/:googletoken' ,loginUserGoogle);
 
 export default router;

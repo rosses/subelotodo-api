@@ -34,7 +34,10 @@ model Users {
   outstanding  Int             @default(0) @db.Int
   zipcode      Int?
   phone        Int
-  document     String?         @db.VarChar(225)
+  account      String?         @default("") @db.VarChar(225)
+  accountType  String?         @default("") @db.VarChar(225)
+  bank         String?         @default("") @db.VarChar(225)
+  document     String?         @default("") @db.VarChar(225)
   birthday     DateTime
   orders       Orders[]
   products     Products[]

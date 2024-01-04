@@ -22,7 +22,7 @@ export const getState = async(req: Request,res: Response) =>{
       },
       include: {
         cities:true,
-        products:true,
+        products:{where:{approved:true,deletedAt:null},include:{ProductImages:true,city:true,category:true,subcategory:true,state:true}},
       },
     });
     if (state) {
