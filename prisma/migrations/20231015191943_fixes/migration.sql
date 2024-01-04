@@ -8,11 +8,8 @@
   - You are about to drop the `refreshtoken` table. If the table is not empty, all the data it contains will be lost.
 
 */
-<<<<<<< HEAD
--- DropForeignKey
-=======
 
->>>>>>> e78631cc73c8eb03c39d918050bbce046252e4f5
+
 
 
 -- AlterTable
@@ -21,14 +18,5 @@ ALTER TABLE `dimensions` MODIFY `length` DECIMAL NOT NULL DEFAULT 0,
     MODIFY `height` DECIMAL NOT NULL DEFAULT 0,
     MODIFY `weight` DECIMAL NOT NULL DEFAULT 0;
 
-<<<<<<< HEAD
--- DropTable
-=======
 
-
-
-
-
-
->>>>>>> e78631cc73c8eb03c39d918050bbce046252e4f5
 
