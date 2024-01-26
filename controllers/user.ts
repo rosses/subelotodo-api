@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import User from "../models/user";
 import bcryptjs from 'bcryptjs';
+import { env } from "process";
 const nodemailer = require("nodemailer");
 
 
@@ -622,7 +623,7 @@ export const validateAccount = async (req: Request, res: Response) => {
       },
       data: { type: 2 },
     });
-    res.redirect('http://localhost:4200/signin');
+    res.redirect(process.env.URL_FRONT! + '/signin');
   } catch (error) {
     res.status(400).send("ha ocurrido un error");
   }
