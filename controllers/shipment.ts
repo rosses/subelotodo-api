@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Shipment from "../models/shipment";
 
-export const checkToken = async(req: Request,res: Response) =>{
+export const checkToken = async (req: Request, res: Response) => {
 
   const { token } = req.params;
   try {
@@ -16,20 +16,20 @@ export const checkToken = async(req: Request,res: Response) =>{
       res.json(false)
     }
   } catch (error) {
-    
+
   }
 }
 
-export const getShipments = async(req: Request,res: Response) =>{
+export const getShipments = async (req: Request, res: Response) => {
   const shipments = await Shipment.findMany({
     include: {
-      orders:true,
+      orders: true,
     },
   });
   res.json(shipments);
-}  
+}
 
-export const getShipment = async(req: Request,res: Response) =>{
+export const getShipment = async (req: Request, res: Response) => {
 
   const { id } = req.params;
   try {
@@ -38,7 +38,7 @@ export const getShipment = async(req: Request,res: Response) =>{
         id: parseInt(id),
       },
       include: {
-        orders:true,
+        orders: true,
       },
     });
     if (shipment) {
@@ -56,34 +56,34 @@ export const getShipment = async(req: Request,res: Response) =>{
   }
 }
 
-export const getShipmentByUser = async(req: Request,res: Response) =>{
+export const getShipmentByUser = async (req: Request, res: Response) => {
 
-    const { userId } = req.params;
-    try {
-      const shipment = await Shipment.findMany({
-        where: {
-          userId: parseInt(userId),
-        },
-        include: {
-          orders:true,
-        },
-      });
-      if (shipment) {
-        res.json(shipment);
-      } else {
-        res.status(404).json({
-          msg: `No existe pago con el id ${userId}`
-        });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        msg: 'Error al obtener el pago'
+  const { userId } = req.params;
+  try {
+    const shipment = await Shipment.findMany({
+      where: {
+        userId: parseInt(userId),
+      },
+      include: {
+        orders: true,
+      },
+    });
+    if (shipment) {
+      res.json(shipment);
+    } else {
+      res.status(404).json({
+        msg: `No existe pago con el id ${userId}`
       });
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      msg: 'Error al obtener el pago'
+    });
   }
+}
 
-export const postShipment = async( req: Request , res: Response ) => {
+export const postShipment = async (req: Request, res: Response) => {
 
   const { body } = req;
   try {
@@ -100,7 +100,7 @@ export const postShipment = async( req: Request , res: Response ) => {
   }
 }
 
-export const putShipment = async (req: Request,res: Response) =>{
+export const putShipment = async (req: Request, res: Response) => {
 
   const { id } = req.params;
   const { body } = req;
@@ -131,7 +131,7 @@ export const putShipment = async (req: Request,res: Response) =>{
   }
 }
 
-export const deleteShipment =  async(req: Request,res: Response) =>{
+export const deleteShipment = async (req: Request, res: Response) => {
 
   const { id } = req.params;
   try {
