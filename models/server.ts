@@ -30,33 +30,33 @@ interface Paths {
     users: string;
     categories: string;
     subcategories: string;
-    states:string;
-    cities:string;
-    tags:string;
-    productTags:string;
-    userTypes:string;
+    states: string;
+    cities: string;
+    tags: string;
+    productTags: string;
+    userTypes: string;
     //dimensions:string;
-    productImages:string;
+    productImages: string;
     products: string;
-    shoppingCart:string;
-    orderState:string;
-    shipment:string;
-    order:string;
-    questions:string;
-    banners:string;
-    notifications:string;
-    faqs:string;
-    faqCategories:string;
+    shoppingCart: string;
+    orderState: string;
+    shipment: string;
+    order: string;
+    questions: string;
+    banners: string;
+    notifications: string;
+    faqs: string;
+    faqCategories: string;
     // uploads: string;
 }
 
 class Server {
 
-    private app: Application; 
+    private app: Application;
     private port: string;
     private prisma: PrismaClient;
     private paths: Paths;
-    constructor(){
+    constructor() {
         this.app = express();
         this.port = process.env.PORT || '8000';
         this.prisma = new PrismaClient(); // Inicializa el cliente de Prisma
@@ -68,78 +68,78 @@ class Server {
             cities: '/api/cities',
             tags: '/api/tags',
             productTags: '/api/productTags',
-            userTypes:'/api/userTypes',
+            userTypes: '/api/userTypes',
             //dimensions: '/api/dimensions',
             productImages: '/api/productImages',
             products: '/api/products',
             auth: '/api/login',
             shoppingCart: '/api/shoppingCart',
-            order:'/api/order',
-            orderState:'/api/orderState',
-            shipment:'/api/shipment',
-            questions:'/api/questions',
-            banners:'/api/banners',
-            notifications:'/api/notifications',
-            faqs:'/api/faqs',
-            faqCategories:'/api/faqsCategories',
+            order: '/api/order',
+            orderState: '/api/orderState',
+            shipment: '/api/shipment',
+            questions: '/api/questions',
+            banners: '/api/banners',
+            notifications: '/api/notifications',
+            faqs: '/api/faqs',
+            faqCategories: '/api/faqsCategories',
             // uploads: '/api/uploads',
-        }; 
+        };
         //Metodos iniciales
         this.dbConnection();
         this.middlewares();
         this.routes();
     }
 
-     async dbConnection(){
+    async dbConnection() {
         try {
             await this.prisma.$connect();
             console.log('Database online');
-            
-        } catch (error) {
-            throw new Error( error as string );
-        }
-     }
 
-    middlewares(){
+        } catch (error) {
+            throw new Error(error as string);
+        }
+    }
+
+    middlewares() {
 
         //CORS
-        
+
         this.app.use(cors());
         //Lectura del body
-        this.app.use( json() );
+        this.app.use(json());
 
         //this.app.use(express.static('uploads'))
-        this.app.use( express.static('uploads'))
+        this.app.use(express.static('uploads'))
         //Carpeta publica
         // this.app.use(  express.static('public') );
     }
 
-    routes(){
-        this.app.use(  this.paths.users, userRoutes ),
-        this.app.use(  this.paths.categories, categoryRoutes ),
-        this.app.use(  this.paths.subcategories, subcategoryRoutes ),
-        this.app.use(  this.paths.states, stateRoutes ),
-        this.app.use(  this.paths.cities, cityRoutes ),
-        this.app.use(  this.paths.tags, tagRoutes ),
-        this.app.use(  this.paths.productTags, productTagRoutes ),
-        this.app.use(  this.paths.userTypes, userTypeRoutes ),
-        this.app.use(  this.paths.productImages, productImageRoutes ),
-        this.app.use(  this.paths.products, productRoutes ),
-        this.app.use(  this.paths.auth, loginRoutes),
-        this.app.use(  this.paths.shoppingCart, shoppingCartRoutes),
-        this.app.use(  this.paths.order, orderRoutes ),
-        this.app.use(  this.paths.orderState, orderStateRoutes),
-        this.app.use(  this.paths.shipment,shipmentRoutes),
-        this.app.use(  this.paths.questions,questionsRoutes),
-        this.app.use(  this.paths.banners,bannerRoutes),
-        this.app.use(  this.paths.notifications,notificationRoutes),
-        this.app.use(  this.paths.faqs,faqRoutes),
-        this.app.use(  this.paths.faqCategories,faqCategoryRoutes)
+    routes() {
+        this.app.use(this.paths.users, userRoutes),
+            this.app.use(this.paths.categories, categoryRoutes),
+            this.app.use(this.paths.subcategories, subcategoryRoutes),
+            this.app.use(this.paths.states, stateRoutes),
+            this.app.use(this.paths.cities, cityRoutes),
+            this.app.use(this.paths.tags, tagRoutes),
+            this.app.use(this.paths.productTags, productTagRoutes),
+            this.app.use(this.paths.userTypes, userTypeRoutes),
+            this.app.use(this.paths.productImages, productImageRoutes),
+            this.app.use(this.paths.products, productRoutes),
+            this.app.use(this.paths.auth, loginRoutes),
+            this.app.use(this.paths.shoppingCart, shoppingCartRoutes),
+            this.app.use(this.paths.order, orderRoutes),
+            this.app.use(this.paths.orderState, orderStateRoutes),
+            this.app.use(this.paths.shipment, shipmentRoutes),
+            this.app.use(this.paths.questions, questionsRoutes),
+            this.app.use(this.paths.banners, bannerRoutes),
+            this.app.use(this.paths.notifications, notificationRoutes),
+            this.app.use(this.paths.faqs, faqRoutes),
+            this.app.use(this.paths.faqCategories, faqCategoryRoutes)
     }
 
-    listen(){
-        this.app.listen( this.port, ()=>{
-            console.log('Servidor corriendo en puerto ' +this.port);
+    listen() {
+        this.app.listen(this.port, () => {
+            console.log('Servidor corriendo en puerto ' + this.port);
         }
         );
     }

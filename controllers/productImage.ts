@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response,Express } from "express";
+import { NextFunction, Request, Response, Express } from "express";
 import ProductImage from "../models/productImage";
 import multer from 'multer'
 
@@ -8,12 +8,12 @@ type filenamecallback = (error: any | null, filename: string) => void
 
 
 
-export const getProductImages = async(req: Request,res: Response) =>{
-    const productImages = await ProductImage.findMany();
-    res.json(productImages);
+export const getProductImages = async (req: Request, res: Response) => {
+  const productImages = await ProductImage.findMany();
+  res.json(productImages);
 }
 
-export const getProductImage = async(req: Request,res: Response) =>{
+export const getProductImage = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     const productImage = await ProductImage.findUnique({
@@ -36,7 +36,7 @@ export const getProductImage = async(req: Request,res: Response) =>{
   }
 }
 
-export const getProductUniqueImages = async(req: Request,res: Response) =>{
+export const getProductUniqueImages = async (req: Request, res: Response) => {
   const { productId } = req.params;
   try {
     const productImage = await ProductImage.findMany({
@@ -59,7 +59,7 @@ export const getProductUniqueImages = async(req: Request,res: Response) =>{
   }
 }
 
-export const postProductImage = async( req: Request , res: Response ) => {
+export const postProductImage = async (req: Request, res: Response) => {
 
   const { body } = req;
   try {
@@ -78,7 +78,7 @@ export const postProductImage = async( req: Request , res: Response ) => {
   }
 }
 
-export const putProductImage = async (req: Request,res: Response) =>{
+export const putProductImage = async (req: Request, res: Response) => {
 
   const { id } = req.params;
   const { body } = req;
@@ -109,7 +109,7 @@ export const putProductImage = async (req: Request,res: Response) =>{
   }
 }
 
-export const deleteProductImage =  async(req: Request,res: Response) =>{
+export const deleteProductImage = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     const productImage = await ProductImage.findUnique({
@@ -118,6 +118,7 @@ export const deleteProductImage =  async(req: Request,res: Response) =>{
       },
     });
     if (!productImage) {
+      console.log('No existe imagen con el id' + id);
       return res.status(404).json({
         msg: `No existe imagen con el id ${id}`
       });
@@ -130,6 +131,7 @@ export const deleteProductImage =  async(req: Request,res: Response) =>{
         deletedAt: new Date(),
       },
     });
+    console.log('Imagen desactivada');
     res.json(productImage);
   } catch (error) {
     console.error(error);
@@ -143,9 +145,9 @@ const storage = multer.diskStorage({
   destination: 'uploads',
 
   filename: (
-      req: Request, 
-      file: any, 
-      callback: filenamecallback
+    req: Request,
+    file: any,
+    callback: filenamecallback
   ): void => {
     callback(null, `FunOfHeuristic_${file.name}`)
   }
@@ -153,12 +155,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
-export const uploadProductImages = async( req: Request , res: Response ) => {
+export const uploadProductImages = async (req: Request, res: Response) => {
   try {
     console.log('45')
-    upload.array('files[]'), (req:Request, res:Response, next:NextFunction) => {
+    upload.array('files[]'), (req: Request, res: Response, next: NextFunction) => {
 
-        res.send({sttus:  'ok'});
+      res.send({ sttus: 'ok' });
     }
   } catch (error) {
     console.error(error);
