@@ -24,7 +24,7 @@ export const loginUser = async (req: Request, res: Response) => {
                 const name = existeEmail.firstName
                 const lastName = existeEmail.lastName
                 const token = jwt.sign({ email: email }, process.env.SECRET_KEY!)
-                res.json({ id, type, token, status: 'ok', name, lastName })
+                res.json({ id, type, token, status: 'ok', name, lastName, email })
             }
             else {
                 res.json({ msg: 'Cuenta pendiente de validación', status: 'error' })
@@ -43,14 +43,12 @@ export const loginUser = async (req: Request, res: Response) => {
 
 export const loginUserGoogle = async (req: Request, res: Response) => {
 
-    const { googletoken, email } = req.body;
+    const { googletoken } = req.body;
 
 
     const clientId = env.GOOGLE_CLIENT_ID;
     const client = new OAuth2Client(clientId);
     try {
-        console.log(googletoken);
-        console.log(email);
         const verify = await client.verifyIdToken({
             idToken: googletoken,
             audience: clientId
@@ -69,8 +67,9 @@ export const loginUserGoogle = async (req: Request, res: Response) => {
                 const type = existeEmail.type
                 const name = existeEmail.firstName
                 const lastName = existeEmail.lastName
+                const email = existeEmail.email
                 const token = jwt.sign({ email: existeEmail.email }, process.env.SECRET_KEY!)
-                res.json({ id, type, token, status: 'ok', name, lastName })
+                res.json({ id, type, token, status: 'ok', name, lastName, email })
 
 
             } else {
